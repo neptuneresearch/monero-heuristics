@@ -11,6 +11,51 @@ e) Have these numbers changed over time? (maybe after changes in the decoy selec
 Given: RingCT transactions only
 
 # Answers
+1. Count each case from Question A,B,C; also present as % of transactions from total
+    - Same or different input: `tx_ringmember_sourcetx_count_dist.csv`
+    - Same input: `tx_ringmember_sourcetx_count_sameinput_dist.csv`
+
+    - Columns always included:
+        - n_ringmembers: Number of ringmembers from same source transaction
+
+    - Same or different input columns:
+        - n_tx: Number of transactions where this occurred
+        - n_tx_pct: n_tx as percentage of transactions out of total of transactions for all values for n_ringmembers > 1
+        - n_tx_pct_rct: n_tx as percentage of RingCT transactions in entire blockchain
+
+    - Same input columns:
+        - n_txinput: Number of transaction inputs where this occurred
+        - n_txinput_pct: n_txinput as percentage of transaction inputs out of total of transaction inputs for all values for n_ringmembers > 1
+        - n_txinput_pct_rct: n_txinput as percentage of RingCT transaction inputs in entire blockchain
+
+2. Question D: repeat #1 for "multiple" variant
+    - Same or different input: `tx_ringmember_sourcetx_count_multiple_dist.csv`
+    - Same input: `tx_ringmember_sourcetx_count_sameinput_multiple_dist.csv`
+
+    - Columns:
+        - n_ringmember_sourcetx: Number of source transactions that were used in > 1 transaction inputs, for all transaction inputs 
+            - (will double count i.e. if same tx was used for 2 ringmembers in different inputs A and B, it will count 2 source transactions)
+        - n_tx: Number of transactions where this occurred
+        - n_tx_pct: Percentage of transactions in this data set
+        - n_tx_pct_rct: Percentage of RingCT transactions in entire blockchain
+
+3. Question E: query using block_height and monero_version HF ranges
+    - Same or different input: `tx_ringmember_sourcetx_count_version.csv`
+    - Same input: `tx_ringmember_sourcetx_count_sameinput_version.csv`
+
+    - Columns always included:
+        - version: Hard fork version number
+        - height: Start height for hard fork
+        - n_ringmembers: Number of ringmembers from same source transaction
+
+    - Same or different input columns:
+        - n_tx: Number of transactions where this occurred
+
+    - Same input columns:
+        - n_txinput: Number of transaction inputs where this occurred
+
+
+# Design
 1. Metrics of current ring-membership-sql data, for calculating percentages:
     - Height range (tx_ringmember_list_block_height_max) = 2457499
     - Number of RingCT transactions (tx_input_list_rct_count_tx) = 15647807
@@ -53,46 +98,3 @@ Given: RingCT transactions only
         - give the number of re-used source transactions (n_ringmember_sourcetx) per transaction input,
         - where the source transaction was used for > 1 ringmembers in the transaction input
         - (since = 1 would be used once, the common and not-special case).
-        
-3. Count each case from Question A,B,C; also present as % of transactions from total in (1)
-    - Same or different input: tx_ringmember_sourcetx_count_dist
-    - Same input: tx_ringmember_sourcetx_count_sameinput_dist
-
-    - Columns always included:
-        - n_ringmembers: Number of ringmembers from same source transaction
-
-    - Same or different input columns:
-        - n_tx: Number of transactions where this occurred
-        - n_tx_pct: n_tx as percentage of transactions out of total of transactions for all values for n_ringmembers > 1
-        - n_tx_pct_rct: n_tx as percentage of RingCT transactions in entire blockchain
-
-    - Same input columns:
-        - n_txinput: Number of transaction inputs where this occurred
-        - n_txinput_pct: n_txinput as percentage of transaction inputs out of total of transaction inputs for all values for n_ringmembers > 1
-        - n_txinput_pct_rct: n_txinput as percentage of RingCT transaction inputs in entire blockchain
-
-4. Question D: repeat #3 for "multiple" variant
-    - Same or different input: tx_ringmember_sourcetx_count_multiple_dist
-    - Same input: tx_ringmember_sourcetx_count_sameinput_multiple_dist
-
-    - Columns:
-        - n_ringmember_sourcetx: Number of source transactions that were used in > 1 transaction inputs, for all transaction inputs 
-            - (will double count i.e. if same tx was used for 2 ringmembers in different inputs A and B, it will count 2 source transactions)
-        - n_tx: Number of transactions where this occurred
-        - n_tx_pct: Percentage of transactions in this data set
-        - n_tx_pct_rct: Percentage of RingCT transactions in entire blockchain
-
-5. Question E: query using block_height and monero_version HF ranges
-    - Same or different input: tx_ringmember_sourcetx_count_version
-    - Same input: tx_ringmember_sourcetx_count_sameinput_version
-
-    - Columns always included:
-        - version: Hard fork version number
-        - height: Start height for hard fork
-        - n_ringmembers: Number of ringmembers from same source transaction
-
-    - Same or different input columns:
-        - n_tx: Number of transactions where this occurred
-
-    - Same input columns:
-        - n_txinput: Number of transaction inputs where this occurred
