@@ -1,7 +1,7 @@
-Multiple Ring Members From Same Transactions, Within Same Transaction Or Transaction Input  
+# Multiple Ring Members From Same Transactions, Within Same Transaction Or Transaction Input  
 Neptune 2021-10-26
 
-# Questions
+## Questions
 a) how often it's been the case that a transaction has exactly 2 ring members (regardless if those ring members belong to the same input or to different inputs) that come from the same transaction.  
 b) how often it's been the case that a transaction has exactly 3 ring members (regardless if those ring members belong to the same input or to different inputs) that come from the same transaction.  
 c) how often it's been the case that a transaction has 4 or more ring members (regardless if those ring members belong to the same input or to different inputs) that come from the same transaction.  
@@ -10,7 +10,7 @@ e) Have these numbers changed over time? (maybe after changes in the decoy selec
 
 Given: RingCT transactions only
 
-# Answers
+## Answers
 1. Count each case from Question A,B,C; also present as % of transactions from total  
     **Release File:** `csv_txringmember_sourcetx_count`
 
@@ -74,9 +74,9 @@ Given: RingCT transactions only
 
     - Source: `tx_ringmember_sourcetx_count_v14.sql`
 
-# Release Summary
+## Release Summary
 
-**Release File Group**: txringmember_sourcetx_count
+**Release File Group**: tx_ringmember_sourcetx_count
 
 | Release file prefix | Description | Format |
 | - | - | - |
@@ -85,7 +85,7 @@ Given: RingCT transactions only
 | csv_3 | Reruns answer #1 and #2 only for the current hard fork v14 | CSV |
 
 
-# Design
+## Design
 1. Metrics of current ring-membership-sql data, for calculating percentages:
     - Height range (tx_ringmember_list_block_height_max) = 2457499
     - Number of RingCT transactions (tx_input_list_rct_count_tx) = 15647807
