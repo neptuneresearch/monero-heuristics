@@ -11,7 +11,9 @@ e) Have these numbers changed over time? (maybe after changes in the decoy selec
 Given: RingCT transactions only
 
 # Answers
-1. Count each case from Question A,B,C; also present as % of transactions from total
+1. Count each case from Question A,B,C; also present as % of transactions from total  
+    **Release File:** `csv_txringmember_sourcetx_count`
+
     - Same or different input: `tx_ringmember_sourcetx_count_dist.csv`
     - Same input: `tx_ringmember_sourcetx_count_sameinput_dist.csv`
 
@@ -28,7 +30,9 @@ Given: RingCT transactions only
         - n_txinput_pct: n_txinput as percentage of transaction inputs out of total of transaction inputs for all values for n_ringmembers > 1
         - n_txinput_pct_rct: n_txinput as percentage of RingCT transaction inputs in entire blockchain
 
-2. Question D: repeat #1 for "multiple" variant
+2. Question D: repeat #1 for "multiple" variant  
+    **Release File:** `csv_txringmember_sourcetx_count`
+
     - Same or different input: `tx_ringmember_sourcetx_count_multiple_dist.csv`
     - Same input: `tx_ringmember_sourcetx_count_sameinput_multiple_dist.csv`
 
@@ -39,9 +43,13 @@ Given: RingCT transactions only
         - n_tx_pct: Percentage of transactions in this data set
         - n_tx_pct_rct: Percentage of RingCT transactions in entire blockchain
 
-3. Question E: query using block_height and monero_version HF ranges
+3. Question E: query using block_height and monero_version HF ranges  
+    **Release File:** `csv2_txringmember_sourcetx_count`
+
     - Same or different input: `tx_ringmember_sourcetx_count_version.csv`
+        - RingCT transactions per version: `tx_input_list_rct_count_tx_version.csv`
     - Same input: `tx_ringmember_sourcetx_count_sameinput_version.csv`
+        - RingCT transactions per version: `tx_input_list_rct_count_ringmember_version.csv`
 
     - Columns always included:
         - version: Hard fork version number
@@ -50,9 +58,31 @@ Given: RingCT transactions only
 
     - Same or different input columns:
         - n_tx: Number of transactions where this occurred
+        - [v2] n_tx_pct_rct_version: Percentage of all RingCT transactions for this version
 
     - Same input columns:
         - n_txinput: Number of transaction inputs where this occurred
+        - [v2] n_txinputs_pct_rct_version: Percentage of all RingCT transaction inputs for this version
+
+4. Rerun #1 and #2 only for the current hard fork v14  
+    **Release File:** `csv_3_txringmember_sourcetx_count`
+
+    - `tx_ringmember_sourcetx_count_dist_v14.csv`
+    - `tx_ringmember_sourcetx_count_multiple_dist_v14.csv`
+    - `tx_ringmember_sourcetx_count_sameinput_dist_v14.csv`
+    - `tx_ringmember_sourcetx_count_sameinput_multiple_dist_v14.csv`
+
+    - Source: `tx_ringmember_sourcetx_count_v14.sql`
+
+# Release Summary
+
+**Release File Group**: txringmember_sourcetx_count
+
+| Release file prefix | Description | Format |
+| - | - | - |
+| csv | Initial release | CSV |
+| csv_2 | Updates answer #3: adds pct_rct_version to version distributions | CSV |
+| csv_3 | Reruns answer #1 and #2 only for the current hard fork v14 | CSV |
 
 
 # Design
