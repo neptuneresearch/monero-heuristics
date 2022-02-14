@@ -1,7 +1,7 @@
 -- List some transaction hashes
 /*
     Top 20:
-        "height","tx_index","upper"
+        "block_height","tx_index","upper"
         3083,1,"7CCDB8992B73D5FA9B284FEF2387A4C8D599DC743685041093194BE8187D3787"
         8330,1,"68189CADEBDEC7E5F969544FF45427AF2B7CC9E92ECD6BC082E09DED15C50371"
         10352,1,"878945AA494A357DFC951FBF73F09112448173D85F4DCE9F0B79306714D18FE1"
@@ -24,7 +24,7 @@
         22835,1,E6C9CC9A67C0DAFF651A9EE2F5C2622EE1517348F02B675891B949B7040BC12B
 
     Bottom 20:
-        "height","tx_index","upper"
+        "block_height","tx_index","upper"
         1118879,1,A568F1218FECAD414CE4EEA54E2DFF73A64E3CB83DF6D355498ABC792991586C
         1030859,1,"32589EB32D31A8F2E46C78E56FC2E24DF063A35F2C294DB3EB6BB754152AA90F"
         1026209,2,"7D83F6573ED300BB55900A00078EDBD4661CA8311EEB29F85F1A2D4DCECFCC89"
@@ -51,12 +51,12 @@
 -- so let's move it to a materialized view
 CREATE MATERIALIZED VIEW tx_input_ring_size_sametx_diffinput_diffringsize_tx AS
 SELECT DISTINCT
-	I.height,
+	I.block_height,
 	I.tx_index,
 	UPPER(ENCODE(I.tx_hash, 'hex'))
 FROM tx_input_ring_size_sametx_diffinput_diffringsize Q
-JOIN tx_input_list I ON I.height = Q.height AND I.tx_index = Q.tx_index
-ORDER BY I.height ASC, I.tx_index ASC
+JOIN tx_input_list I ON I.block_height = Q.block_height AND I.tx_index = Q.tx_index
+ORDER BY I.block_height ASC, I.tx_index ASC
 WITH NO DATA;
 
 -- Load: runtime 21m50s
@@ -70,5 +70,5 @@ LIMIT 20;
 -- Read bottom 20
 SELECT * 
 FROM tx_input_ring_size_sametx_diffinput_diffringsize_tx
-ORDER BY height DESC
+ORDER BY block_height DESC
 LIMIT 20;
