@@ -1,19 +1,26 @@
 # If a transaction has multiple inputs, do they all have the same ring size?
-Neptune 2021-08-08
+Author: Neptune  
+Created: 2021-08-08  
+Updated: 2022-02-13  
 
 ## Analysis
-First, create a helper table `tx_input_ring_size`: list the ring sizes of all transaction inputs (both Pre-RingCT and RingCT).
+We need a table of the ring sizes of all transaction inputs (both Pre-RingCT and RingCT), which has at least these columns:
 
-- `height`
-- `tx_index`
-- `vin_index`
-- `ring_size`
+- `block_height`: to tell when the transaction happened
+- `tx_hash` or `tx_index`: to distinguish transactions
+- `vin_index`: to distinguish transaction inputs
+- `ring_size`: the target data
 
-Then we create the query `tx_input_ring_size_sametx_diffinput_diffringsize`, which for some transaction input A, finds another transaction input B that has:  
+For this, we can use `tx_input_ring_stat` in the `monero-sql` package [[1]](#References) (see category `ringsql_stat`).
 
-- Same transaction (`A.height = B.height` and `A.tx_index = B.tx_index`)
-- Different input (`A.vin_index <> B.vin_index`)
-- Different ring size (`A.ring_size <> B.ring_size`)
+With such a dataset, we can create a query `tx_input_ring_size_sametx_diffinput_diffringsize` which for some transaction input A, finds another transaction input B that has:  
+
+1. Same transaction (`A.block_height = B.block_height` and `A.tx_index = B.tx_index`)
+2. Greater ring size (`A.ring_size < B.ring_size`)
+
+Condition #2 has two desired side-effects:  
+- The greater of the two ring sizes will end up in `ring_size_B`.  
+- We won't need another condition to differentiate the input index, i.e. `A.vin_index <> B.vin_index`, because that will be inherently guaranteed: A and B must be different because the ring size of either cannot be less than itself. 
 
 
 ## Results
@@ -42,3 +49,7 @@ Answer:
 - Therefore, did not happen at a hard fork.
 - Otherwise, no proof of any specific reason to stop at that height.
 - As of v8, due to fixed ringsize 11 rule, it is no longer possible.
+
+
+## References
+[1] GitHub - neptuneresearch/monero-sql. [https://github.com/neptuneresearch/monero-sql](https://github.com/neptuneresearch/monero-sql).
